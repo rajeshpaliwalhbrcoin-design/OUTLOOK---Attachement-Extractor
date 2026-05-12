@@ -1,0 +1,53 @@
+import os
+import extract_msg
+
+def process_folders(root_path):
+    # 1. Verify the root directory exists
+    if not os.path.exists(root_path):
+        print(f"Error: Path {root_path} not found.")
+        return
+
+    print(f"Starting extraction in: {root_path}")
+    
+    # 2. Iterate through each sub-folder (560468, 560657, etc.)
+    for subdir in os.listdir(root_path):
+        folder_path = os.path.join(root_path, subdir)
+        
+        # Ensure we are looking at a folder
+        if os.path.isdir(folder_path):
+            # 3. Look for .msg files in this sub-folder
+            for file in os.listdir(folder_path):
+                if file.lower().endswith(".msg"):
+                    msg_file_path = os.path.join(folder_path, file)
+                    
+                    try:
+                        # 4. Open and read the mail file using the correct library name
+                        msg = extract_msg.Message(msg_file_path)
+                        
+                        # 5. Check attachments inside the mail
+                        for attachment in msg.attachments:
+                            # Get the filename (handles different versions of the library)
+                            att_name = attachment.longFilename or attachment.name
+                            
+                            if att_name and att_name.lower().endswith(".pdf"):
+                                # Define the save path (same sub-folder as the .msg file)
+                                save_path = os.path.join(folder_path, att_name)
+                                
+                                # 6. Write the binary data to a new PDF file
+                                with open(save_path, 'wb') as f:
+                                    f.write(attachment.data)
+                                
+                                print(f"Done: '{att_name}' saved in folder [{subdir}]")
+                        
+                        # Close the message object to free up memory
+                        msg.close() 
+
+                    except Exception as e:
+                        print(f"Error processing folder {subdir}: {e}")
+
+if __name__ == "__main__":
+    # The path to your main folder
+    target_dir = r"C:\Users\Rajesh.plaiwal\Downloads\4 may 2026"
+    
+    process_folders(target_dir)
+    print("\n--- All 172 folders processed ---")

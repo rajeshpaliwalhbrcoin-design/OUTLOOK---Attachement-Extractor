@@ -1,0 +1,57 @@
+HOW TO RUN – Mail Attachment Extractor.txt
+STEP 1 - COPY THE - MAIL SAVE DIRECTORY PATH EXAMPLE - "C:\Users\<username>\Downloads\files\"
+
+#(Sub-folder name can be anything, but the path should be correct, and sub folder has the mail files in it)
+
+STEP 2 - #CREATE A DEDICATED FOLDER TO SAVE THE CODE.
+#Outlook - Attachement Extractor
+
+"D:\Outlook - Attachement Extractor"
+
+STEP 3 - RUN COMMAND PROMPT (CMD)
+#Navigate to the folder where you want to save the code using the command prompt.
+#For example, if you want to save the code in "D:\Outlook - Attachement Extractor", you would use the following command:
+
+-----------------------------------------------
+# 1. Navigate to the project directory
+cd /d "D:\Outlook - Attachment Extractor"
+
+# 2. Create the virtual environment
+python -m venv .venv312
+
+# 3. Activate the environment
+.venv312\Scripts\activate
+
+
+# 4. Install the required extraction engine
+pip install extract-msg
+
+-----------------------------------------------
+
+STEP 4 - CREATE A PYTHON FILE
+#You can create a new Python file in the same directory where you created the virtual environment.
+extract_pdfs.py
+
+#change - 
+if __name__ == "__main__":
+    # The path to your main folder
+    target_dir = r"C:\Users\<username>\Downloads\files\"
+    
+    process_folders(target_dir)
+    print("\n--- All folders processed ---")
+
+Finally, run the Python script to extract attachments from the email files in the specified directory. You can do this by running the following command in your command prompt:
+python extract_pdfs.py
+#This command executes the extract_pdfs.py script, which processes the email files in the specified directory and extracts the attachments. Make sure to replace "C:\Users\<username>\Downloads\files\" with the actual path to your mail save directory.
+
+
+STEP 5: RUN THE AUTOMATION
+--------------------------
+In your active Command Prompt (where .venv312 is visible), run:
+
+    python extract_pdfs.py
+
+REQUIREMENTS SUMMARY:
+- Python 3.10+
+- extract-msg library
+- Proper Windows directory permissions
